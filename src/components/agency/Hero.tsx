@@ -1,125 +1,111 @@
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 
 export const Hero: React.FC = () => {
-  const [currentTagline, setCurrentTagline] = useState(0);
-  const taglines = [
-    "Building Digital Experiences That Inspire",
-    "Crafting Websites, Creating Success",
-    "From Code to Conversion – We've Got You Covered",
-    "Design. Develop. Dominate."
-  ];
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2
+      }
+    }
+  };
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTagline((prev) => (prev + 1) % taglines.length);
-    }, 4000);
-    return () => clearInterval(interval);
-  }, []);
+  const item = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } }
+  };
 
   return (
-    <section id="hero" className="relative min-h-screen flex flex-col justify-center overflow-hidden pt-20">
-      {/* Animated background elements */}
+    <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+      {/* Background Elements */}
       <div className="absolute inset-0 z-0">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-600/30 rounded-full blur-[120px] animate-pulse" />
-        <div className="absolute bottom-1/3 right-1/3 w-80 h-80 bg-cyan-500/30 rounded-full blur-[100px] animate-pulse" />
-        <div className="absolute top-2/3 left-1/2 w-72 h-72 bg-indigo-500/20 rounded-full blur-[150px] animate-pulse" />
-        
-        {/* Grid pattern overlay */}
-        <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] bg-center opacity-20" />
+        <div className="absolute inset-0 bg-gradient-to-b from-zinc-900 via-indigo-900/20 to-zinc-900 opacity-80"></div>
+        <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-20"></div>
+        <div className="absolute top-20 -left-20 w-72 h-72 bg-purple-600/30 rounded-full filter blur-[100px]"></div>
+        <div className="absolute bottom-20 right-10 w-72 h-72 bg-cyan-500/20 rounded-full filter blur-[100px]"></div>
       </div>
 
-      <div className="container mx-auto px-4 z-10 relative">
-        <div className="flex flex-col items-center text-center max-w-5xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-            className="flex items-center gap-2 mb-5 bg-white/10 backdrop-blur-md px-4 py-1 rounded-full border border-white/20"
+      <div className="container mx-auto px-4 z-10 pt-16">
+        <motion.div 
+          className="max-w-4xl mx-auto text-center"
+          variants={container}
+          initial="hidden"
+          animate="show"
+        >
+          <motion.h1 
+            variants={item}
+            className="text-5xl md:text-7xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white via-purple-300 to-cyan-300"
           >
-            <span className="inline-block w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
-            <p className="text-sm font-medium">We're open for new projects</p>
-          </motion.div>
-
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="text-4xl md:text-7xl font-bold mb-8 tracking-tight"
-          >
-            Web Development Agency For
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-cyan-400 ml-3">
-              Modern Brands
-            </span>
+            Building Digital Experiences That Inspire
           </motion.h1>
-
-          <motion.div 
-            key={currentTagline}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.5 }}
-            className="h-12 flex items-center justify-center mb-8"
+          
+          <motion.p 
+            variants={item}
+            className="text-lg md:text-xl text-gray-300 mb-8 max-w-2xl mx-auto"
           >
-            <h2 className="text-xl md:text-3xl font-light text-gray-300">
-              {taglines[currentTagline]}
-            </h2>
-          </motion.div>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.4 }}
-            className="text-lg text-gray-300 max-w-3xl mb-10"
-          >
-            We help businesses transform their digital presence with custom, high-performing
-            websites that convert visitors into loyal customers.
+            We transform ideas into exceptional digital products. Our team of experts crafts beautiful, 
+            functional websites that help businesses grow and succeed in the digital landscape.
           </motion.p>
 
           <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.6 }}
-            className="flex flex-col sm:flex-row gap-4"
+            variants={item}
+            className="flex flex-col sm:flex-row gap-4 justify-center"
           >
             <Button
-              className="bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-700 hover:to-cyan-600 
-                        text-white px-8 py-6 text-lg shadow-lg shadow-purple-500/30 border-0 relative overflow-hidden group"
+              className="bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-700 hover:to-cyan-600 text-white py-6 px-8 rounded-xl text-lg shadow-lg shadow-purple-600/30 border-0 group"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
-              <span className="relative z-10 flex items-center gap-2">
-                Get Free Consultation 
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </span>
-              <span className="absolute inset-0 bg-white/20 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300"></span>
+              Get Started
             </Button>
             
             <Button
+              asChild
               variant="outline"
-              className="border-white/20 text-white hover:bg-white/10 hover:text-white px-8 py-6 text-lg"
+              className="border-white/20 hover:border-white text-white hover:bg-white/10 py-6 px-8 rounded-xl text-lg flex items-center gap-2 group"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
-              View Our Work
+              <a href="#portfolio" className="flex items-center">
+                View Our Work
+                <motion.span 
+                  className="inline-block ml-2"
+                  initial={{ x: 0 }}
+                  animate={{ x: [0, 5, 0] }}
+                  transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+                >
+                  <ArrowRight className="h-5 w-5" />
+                </motion.span>
+              </a>
             </Button>
           </motion.div>
-        </div>
 
-        {/* Scroll indicator */}
-        <motion.div 
-          className="absolute bottom-10 left-1/2 transform -translate-x-1/2"
-          animate={{ 
-            y: [0, 8, 0],
-          }}
-          transition={{ 
-            repeat: Infinity,
-            duration: 2
-          }}
-        >
-          <div className="w-[30px] h-[50px] rounded-full border-2 border-white/30 flex items-center justify-center">
-            <div className="w-[8px] h-[8px] rounded-full bg-white mb-5"></div>
-          </div>
+          <motion.div
+            variants={item}
+            className="mt-16 flex flex-wrap justify-center gap-8 opacity-70"
+          >
+            {/* Trusted by logos would go here */}
+            <div className="flex items-center text-sm text-gray-400 uppercase tracking-wider">
+              Trusted by innovative companies worldwide
+            </div>
+          </motion.div>
         </motion.div>
+      </div>
+
+      {/* Bottom wave */}
+      <div className="absolute bottom-0 left-0 right-0">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" className="w-full">
+          <path
+            fill="rgba(139, 92, 246, 0.1)"
+            fillOpacity="1"
+            d="M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,202.7C672,203,768,181,864,181.3C960,181,1056,203,1152,213.3C1248,224,1344,224,1392,224L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
+          ></path>
+        </svg>
       </div>
     </section>
   );

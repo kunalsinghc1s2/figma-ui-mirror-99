@@ -100,18 +100,24 @@ export const Portfolio: React.FC = () => {
           
           <div className="flex flex-wrap justify-center gap-3 mt-8">
             {filters.map(filter => (
-              <Button
+              <motion.div
                 key={filter.id}
-                onClick={() => setActiveFilter(filter.id)}
-                variant={activeFilter === filter.id ? "default" : "outline"}
-                className={`
-                  ${activeFilter === filter.id 
-                    ? 'bg-gradient-to-r from-pink-500 to-purple-600 border-0 text-white' 
-                    : 'border-white/20 text-white hover:bg-white/10 hover:text-white'}
-                `}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
-                {filter.label}
-              </Button>
+                <Button
+                  onClick={() => setActiveFilter(filter.id)}
+                  variant={activeFilter === filter.id ? "default" : "outline"}
+                  className={`
+                    ${activeFilter === filter.id 
+                      ? 'bg-gradient-to-r from-pink-500 to-purple-600 border-0 text-white shadow-lg shadow-pink-500/20' 
+                      : 'border-white/20 text-white hover:bg-white/10 hover:text-white'}
+                    px-6 py-2 text-sm font-medium
+                  `}
+                >
+                  {filter.label}
+                </Button>
+              </motion.div>
             ))}
           </div>
         </motion.div>
@@ -148,17 +154,18 @@ export const Portfolio: React.FC = () => {
                   <span className="text-pink-400 text-sm font-medium">{project.client}</span>
                   <h4 className="text-xl font-semibold text-white mt-1">{project.title}</h4>
                   
-                  <div className="mt-4 flex items-center">
+                  <div className="mt-4">
                     <Button
-                      variant="ghost"
-                      className="text-white hover:bg-white/20 p-0"
+                      variant="outline"
+                      className="text-white hover:bg-white/20 hover:text-white border-white/20 group-hover:border-white transition-colors flex items-center gap-2 mt-2"
+                      asChild
                     >
-                      <span className="flex items-center">
+                      <a href={`#project-${project.id}`}>
                         View Project
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-1 group-hover:ml-2 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-1 transition-all group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                         </svg>
-                      </span>
+                      </a>
                     </Button>
                   </div>
                 </motion.div>
@@ -169,7 +176,9 @@ export const Portfolio: React.FC = () => {
 
         <div className="text-center mt-12">
           <Button
-            className="bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white border border-white/20 px-8"
+            className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white shadow-lg shadow-pink-500/20 px-8 py-6 text-base font-medium border-0"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
             View All Projects
           </Button>

@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, useScroll, useMotionValueEvent } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { Menu } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 
 export const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -21,6 +21,19 @@ export const Navbar: React.FC = () => {
     { name: "About", href: "#about" },
     { name: "Contact", href: "#contact" },
   ];
+
+  // Smooth scroll function
+  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
+    e.preventDefault();
+    const section = document.querySelector(sectionId);
+    if (section) {
+      setMobileMenuOpen(false);
+      window.scrollTo({
+        top: section.getBoundingClientRect().top + window.scrollY - 100,
+        behavior: 'smooth'
+      });
+    }
+  };
 
   return (
     <motion.nav
@@ -49,6 +62,7 @@ export const Navbar: React.FC = () => {
             <motion.a
               key={link.name}
               href={link.href}
+              onClick={(e) => scrollToSection(e, link.href)}
               className="text-sm font-medium text-gray-200 hover:text-white transition-colors relative"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
@@ -79,38 +93,39 @@ export const Navbar: React.FC = () => {
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="text-white hover:bg-white/10"
           >
-            <Menu />
+            {mobileMenuOpen ? <X /> : <Menu />}
           </Button>
         </div>
       </div>
 
       {/* Mobile Navigation Menu */}
-      {mobileMenuOpen && (
-        <motion.div 
-          className="md:hidden absolute top-full left-0 w-full bg-black/90 backdrop-blur-lg border-b border-white/10"
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: 'auto' }}
-          exit={{ opacity: 0, height: 0 }}
-        >
-          <div className="container mx-auto px-4 py-4 flex flex-col gap-4">
-            {navLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                className="text-lg font-medium text-gray-200 hover:text-white py-2 transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                {link.name}
-              </a>
-            ))}
-            <Button
-              className="bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-700 hover:to-cyan-600 text-white mt-2"
+      <motion.div 
+        className={`md:hidden absolute top-full left-0 w-full bg-black/90 backdrop-blur-lg border-b border-white/10 ${!mobileMenuOpen && "hidden"}`}
+        initial={{ opacity: 0, height: 0 }}
+        animate={{ 
+          opacity: mobileMenuOpen ? 1 : 0, 
+          height: mobileMenuOpen ? 'auto' : 0 
+        }}
+        transition={{ duration: 0.3 }}
+      >
+        <div className="container mx-auto px-4 py-4 flex flex-col gap-4">
+          {navLinks.map((link) => (
+            <a
+              key={link.name}
+              href={link.href}
+              onClick={(e) => scrollToSection(e, link.href)}
+              className="text-lg font-medium text-gray-200 hover:text-white py-2 transition-colors"
             >
-              Get Started
-            </Button>
-          </div>
-        </motion.div>
-      )}
+              {link.name}
+            </a>
+          ))}
+          <Button
+            className="bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-700 hover:to-cyan-600 text-white mt-2"
+          >
+            Get Started
+          </Button>
+        </div>
+      </motion.div>
     </motion.nav>
   );
 };
