@@ -120,10 +120,11 @@ export const Services: React.FC = () => {
   ];
 
   return (
-    <section id="services" className="py-24 relative overflow-hidden bg-zinc-900/90 backdrop-blur-xl">
+    <section id="services" className="py-24 relative overflow-hidden bg-zinc-950 backdrop-blur-xl">
       <div className="absolute inset-0 z-0">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-600/20 rounded-full blur-[100px]" />
         <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-cyan-500/20 rounded-full blur-[100px]" />
+        <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-5"></div>
       </div>
       
       <div className="container mx-auto px-4 relative z-10">
@@ -149,23 +150,23 @@ export const Services: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: service.delay }}
-              whileHover={{ y: -10, transition: { duration: 0.2 } }}
+              whileHover={{ y: -10, scale: 1.02, transition: { duration: 0.2 } }}
               onClick={() => setSelectedService(service)}
-              className="relative bg-zinc-800/70 backdrop-blur-lg rounded-2xl overflow-hidden border border-white/10 
-                        hover:border-white/20 transition-all group cursor-pointer shadow-lg shadow-black/20"
+              className="relative bg-zinc-900/90 rounded-2xl overflow-hidden border border-white/10 
+                        hover:border-white/20 hover:shadow-xl hover:shadow-purple-500/10 transition-all group cursor-pointer"
             >
-              <div className="absolute inset-0 opacity-20">
+              <div className="relative h-48 overflow-hidden">
                 <img 
                   src={service.coverImage || service.image} 
                   alt={service.title}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-zinc-900/90 via-zinc-900/50 to-zinc-900/30"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-zinc-900/80 to-transparent"></div>
               </div>
               
-              <div className="p-6 relative z-10">
-                <div className="bg-white/10 w-16 h-16 rounded-xl flex items-center justify-center mb-5 
-                                backdrop-blur-sm text-3xl group-hover:scale-110 transition-transform">
+              <div className="p-6 relative">
+                <div className="bg-gradient-to-br from-purple-600/20 to-cyan-600/20 backdrop-blur-md w-16 h-16 rounded-xl flex items-center justify-center mb-5 
+                                border border-white/10 text-3xl group-hover:scale-110 transition-transform">
                   {service.icon}
                 </div>
                 
@@ -187,7 +188,7 @@ export const Services: React.FC = () => {
         <AnimatePresence>
           {selectedService && (
             <Dialog open={!!selectedService} onOpenChange={() => setSelectedService(null)}>
-              <DialogContent className="sm:max-w-[650px] bg-gradient-to-br from-zinc-900 to-zinc-950 border-white/10 text-white max-h-[90vh] overflow-y-auto">
+              <DialogContent className="sm:max-w-[650px] bg-gradient-to-br from-zinc-950 to-black border-white/10 text-white max-h-[90vh] overflow-y-auto">
                 <DialogHeader className="relative">
                   <button 
                     onClick={() => setSelectedService(null)}
@@ -204,7 +205,13 @@ export const Services: React.FC = () => {
                   </DialogDescription>
                 </DialogHeader>
                 
-                <div className="overflow-hidden rounded-xl mb-4 h-64">
+                <motion.div 
+                  className="overflow-hidden rounded-xl mb-4 h-64"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 20 }}
+                  transition={{ duration: 0.3 }}
+                >
                   {selectedService.coverImage && (
                     <motion.img 
                       initial={{ scale: 1.1, opacity: 0.8 }}
@@ -215,7 +222,7 @@ export const Services: React.FC = () => {
                       className="w-full h-full object-cover object-center"
                     />
                   )}
-                </div>
+                </motion.div>
                 
                 <div className="space-y-4">
                   <p className="text-gray-300">{selectedService.longDescription}</p>

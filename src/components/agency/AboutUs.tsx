@@ -6,42 +6,42 @@ export const AboutUs: React.FC = () => {
   const countRefs = {
     years: useRef(null),
     projects: useRef(null),
-    members: useRef(null),
+    clients: useRef(null),
     awards: useRef(null),
   };
 
   const yearCount = useMotionValue(0);
   const projectCount = useMotionValue(0);
-  const memberCount = useMotionValue(0);
+  const clientCount = useMotionValue(0);
   const awardCount = useMotionValue(0);
 
   const yearDisplay = useTransform(yearCount, Math.round);
   const projectDisplay = useTransform(projectCount, Math.round);
-  const memberDisplay = useTransform(memberCount, Math.round);
+  const clientDisplay = useTransform(clientCount, Math.round);
   const awardDisplay = useTransform(awardCount, Math.round);
 
   const yearsInView = useInView(countRefs.years, { once: true, amount: 0.5 });
   const projectsInView = useInView(countRefs.projects, { once: true, amount: 0.5 });
-  const membersInView = useInView(countRefs.members, { once: true, amount: 0.5 });
+  const clientsInView = useInView(countRefs.clients, { once: true, amount: 0.5 });
   const awardsInView = useInView(countRefs.awards, { once: true, amount: 0.5 });
 
   useEffect(() => {
     if (yearsInView) {
-      animate(yearCount, 8, { duration: 2 });
+      animate(yearCount, 10, { duration: 2 });
     }
   }, [yearsInView, yearCount]);
 
   useEffect(() => {
     if (projectsInView) {
-      animate(projectCount, 200, { duration: 2 });
+      animate(projectCount, 250, { duration: 2 });
     }
   }, [projectsInView, projectCount]);
 
   useEffect(() => {
-    if (membersInView) {
-      animate(memberCount, 50, { duration: 2 });
+    if (clientsInView) {
+      animate(clientCount, 120, { duration: 2 });
     }
-  }, [membersInView, memberCount]);
+  }, [clientsInView, clientCount]);
 
   useEffect(() => {
     if (awardsInView) {
@@ -54,10 +54,86 @@ export const AboutUs: React.FC = () => {
       <div className="absolute inset-0 z-0">
         <div className="absolute -top-40 -left-40 w-80 h-80 bg-purple-600/20 rounded-full blur-[100px]" />
         <div className="absolute bottom-40 right-40 w-80 h-80 bg-cyan-500/20 rounded-full blur-[100px]" />
-        <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-10"></div>
+        <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-5"></div>
       </div>
       
       <div className="container mx-auto px-4 relative z-10">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-16"
+        >
+          <h2 className="text-sm uppercase tracking-wider text-purple-400 mb-3">About Us</h2>
+          <h3 className="text-4xl md:text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-cyan-400 drop-shadow-[0_0_10px_rgba(168,85,247,0.5)]">We're a Team of Web Enthusiasts</h3>
+          <p className="max-w-2xl mx-auto text-gray-300 text-lg">
+            Founded with a passion for crafting exceptional digital experiences, we combine technical expertise with creative innovation to build websites that drive real business results.
+          </p>
+        </motion.div>
+        
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-20">
+          <motion.div 
+            ref={countRefs.years}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4 }}
+            className="bg-gradient-to-br from-zinc-900/80 to-zinc-900/30 backdrop-blur-sm rounded-xl p-8 border border-white/10 hover:border-white/30 hover:bg-white/5 transition-all"
+            whileHover={{ y: -5, transition: { duration: 0.2 } }}
+          >
+            <motion.div className="text-5xl font-bold bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent mb-2 flex items-baseline">
+              <motion.span>{yearDisplay}</motion.span><span className="text-white">+</span>
+            </motion.div>
+            <div className="text-gray-300 text-lg">Years of Experience</div>
+          </motion.div>
+
+          <motion.div 
+            ref={countRefs.projects}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: 0.1 }}
+            className="bg-gradient-to-br from-zinc-900/80 to-zinc-900/30 backdrop-blur-sm rounded-xl p-8 border border-white/10 hover:border-white/30 hover:bg-white/5 transition-all"
+            whileHover={{ y: -5, transition: { duration: 0.2 } }}
+          >
+            <motion.div className="text-5xl font-bold bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent mb-2 flex items-baseline">
+              <motion.span>{projectDisplay}</motion.span><span className="text-white">+</span>
+            </motion.div>
+            <div className="text-gray-300 text-lg">Projects Completed</div>
+          </motion.div>
+
+          <motion.div 
+            ref={countRefs.clients}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: 0.2 }}
+            className="bg-gradient-to-br from-zinc-900/80 to-zinc-900/30 backdrop-blur-sm rounded-xl p-8 border border-white/10 hover:border-white/30 hover:bg-white/5 transition-all"
+            whileHover={{ y: -5, transition: { duration: 0.2 } }}
+          >
+            <motion.div className="text-5xl font-bold bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent mb-2 flex items-baseline">
+              <motion.span>{clientDisplay}</motion.span><span className="text-white">+</span>
+            </motion.div>
+            <div className="text-gray-300 text-lg">Happy Clients</div>
+          </motion.div>
+          
+          <motion.div 
+            ref={countRefs.awards}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: 0.3 }}
+            className="bg-gradient-to-br from-zinc-900/80 to-zinc-900/30 backdrop-blur-sm rounded-xl p-8 border border-white/10 hover:border-white/30 hover:bg-white/5 transition-all"
+            whileHover={{ y: -5, transition: { duration: 0.2 } }}
+          >
+            <motion.div className="text-5xl font-bold bg-gradient-to-r from-amber-400 to-orange-400 bg-clip-text text-transparent mb-2 flex items-baseline">
+              <motion.span>{awardDisplay}</motion.span><span className="text-white">+</span>
+            </motion.div>
+            <div className="text-gray-300 text-lg">Awards Won</div>
+          </motion.div>
+        </div>
+
         <div className="flex flex-col lg:flex-row gap-16">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
@@ -66,66 +142,64 @@ export const AboutUs: React.FC = () => {
             transition={{ duration: 0.6 }}
             className="lg:w-1/2"
           >
-            <div className="sticky top-32">
-              <h2 className="text-sm uppercase tracking-wider text-purple-400 mb-3">About Us</h2>
-              <h3 className="text-4xl md:text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-cyan-400 drop-shadow-[0_0_10px_rgba(168,85,247,0.5)]">We're a Team of Web Enthusiasts</h3>
-              <p className="text-gray-300 mb-6 text-lg">
-                Founded in 2015, PixelCraft has grown from a small freelance operation to a full-service web development agency. 
-                We're passionate about creating beautiful, functional websites that help businesses succeed online.
-              </p>
-              <p className="text-gray-300 mb-6 text-lg">
-                Our approach combines technical expertise with creative design to deliver websites that not only look great 
-                but also perform exceptionally well. We believe in collaboration, transparency, and delivering results that 
-                exceed expectations.
-              </p>
-              
+            <h3 className="text-3xl md:text-4xl font-bold mb-6 text-white">Our Mission & Vision</h3>
+            <p className="text-gray-300 mb-6 text-lg">
+              Founded in 2015, our agency has grown from a small freelance operation to a full-service web development powerhouse. 
+              We're passionate about creating beautiful, functional websites that help businesses succeed online.
+            </p>
+            <p className="text-gray-300 mb-6 text-lg">
+              Our approach combines technical excellence with creative innovation to deliver websites that not only look great 
+              but also perform exceptionally well. We believe in collaboration, transparency, and delivering results that 
+              exceed expectations.
+            </p>
+            
+            <div className="mt-8 space-y-6">
               <motion.div 
-                className="grid grid-cols-2 gap-6 mt-10"
-                initial="hidden"
-                whileInView="visible"
+                className="flex gap-4"
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                transition={{ staggerChildren: 0.1 }}
+                transition={{ duration: 0.4, delay: 0.1 }}
               >
-                <motion.div 
-                  ref={countRefs.years}
-                  className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10 hover:border-white/30 hover:bg-white/10 transition-all"
-                  whileHover={{ y: -5, transition: { duration: 0.2 } }}
-                >
-                  <motion.div className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent mb-2">
-                    <motion.span>{yearDisplay}</motion.span>+
-                  </motion.div>
-                  <div className="text-gray-300">Years of Experience</div>
-                </motion.div>
-                <motion.div 
-                  ref={countRefs.projects}
-                  className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10 hover:border-white/30 hover:bg-white/10 transition-all"
-                  whileHover={{ y: -5, transition: { duration: 0.2 } }}
-                >
-                  <motion.div className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent mb-2">
-                    <motion.span>{projectDisplay}</motion.span>+
-                  </motion.div>
-                  <div className="text-gray-300">Projects Completed</div>
-                </motion.div>
-                <motion.div 
-                  ref={countRefs.members}
-                  className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10 hover:border-white/30 hover:bg-white/10 transition-all"
-                  whileHover={{ y: -5, transition: { duration: 0.2 } }}
-                >
-                  <motion.div className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent mb-2">
-                    <motion.span>{memberDisplay}</motion.span>+
-                  </motion.div>
-                  <div className="text-gray-300">Team Members</div>
-                </motion.div>
-                <motion.div 
-                  ref={countRefs.awards}
-                  className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10 hover:border-white/30 hover:bg-white/10 transition-all"
-                  whileHover={{ y: -5, transition: { duration: 0.2 } }}
-                >
-                  <motion.div className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent mb-2">
-                    <motion.span>{awardDisplay}</motion.span>+
-                  </motion.div>
-                  <div className="text-gray-300">Awards Won</div>
-                </motion.div>
+                <div className="bg-gradient-to-br from-purple-500 to-cyan-500 rounded-full h-12 w-12 flex items-center justify-center shrink-0 mt-1 shadow-lg shadow-purple-500/20">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white"><path d="m8 3 4 8 5-5 5 15H2L8 3z"></path></svg>
+                </div>
+                <div>
+                  <h4 className="text-xl font-semibold text-white mb-2">Innovation Focus</h4>
+                  <p className="text-gray-300">We stay ahead of design trends and technological advancements to deliver cutting-edge solutions.</p>
+                </div>
+              </motion.div>
+
+              <motion.div 
+                className="flex gap-4"
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: 0.2 }}
+              >
+                <div className="bg-gradient-to-br from-pink-500 to-purple-500 rounded-full h-12 w-12 flex items-center justify-center shrink-0 mt-1 shadow-lg shadow-pink-500/20">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg>
+                </div>
+                <div>
+                  <h4 className="text-xl font-semibold text-white mb-2">Quality Guarantee</h4>
+                  <p className="text-gray-300">Every project undergoes rigorous testing and quality assurance to ensure flawless performance.</p>
+                </div>
+              </motion.div>
+
+              <motion.div 
+                className="flex gap-4"
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: 0.3 }}
+              >
+                <div className="bg-gradient-to-br from-cyan-500 to-blue-500 rounded-full h-12 w-12 flex items-center justify-center shrink-0 mt-1 shadow-lg shadow-cyan-500/20">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" x2="4" y1="22" y2="15"></line></svg>
+                </div>
+                <div>
+                  <h4 className="text-xl font-semibold text-white mb-2">Client Success</h4>
+                  <p className="text-gray-300">Our clients' success is our success, and we're committed to helping them achieve their business goals.</p>
+                </div>
               </motion.div>
             </div>
           </motion.div>
@@ -139,24 +213,36 @@ export const AboutUs: React.FC = () => {
           >
             <div className="relative h-full">
               <div className="grid grid-cols-2 gap-5">
-                <motion.img 
+                <motion.div 
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: 0.1 }}
-                  src="https://images.unsplash.com/photo-1552581234-26160f608093" 
-                  alt="Team working" 
-                  className="rounded-lg object-cover h-64 w-full shadow-lg shadow-purple-500/10"
-                />
-                <motion.img 
+                  className="relative overflow-hidden rounded-lg shadow-lg shadow-purple-500/10"
+                  whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
+                >
+                  <img 
+                    src="https://images.unsplash.com/photo-1552581234-26160f608093" 
+                    alt="Team working" 
+                    className="rounded-lg object-cover h-64 w-full"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                </motion.div>
+                <motion.div 
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: 0.2 }}
-                  src="https://images.unsplash.com/photo-1600880292089-90a7e086ee0c" 
-                  alt="Office space" 
-                  className="rounded-lg object-cover h-80 w-full mt-16 shadow-lg shadow-cyan-500/10"
-                />
+                  className="relative overflow-hidden rounded-lg shadow-lg shadow-cyan-500/10 mt-16"
+                  whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
+                >
+                  <img 
+                    src="https://images.unsplash.com/photo-1600880292089-90a7e086ee0c" 
+                    alt="Office space" 
+                    className="rounded-lg object-cover h-80 w-full"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                </motion.div>
               </div>
               
               <motion.div 
@@ -169,65 +255,6 @@ export const AboutUs: React.FC = () => {
                 <div className="text-3xl font-bold text-white">100%</div>
                 <div className="text-white text-sm">Client Satisfaction</div>
               </motion.div>
-            </div>
-            
-            <div className="mt-20 bg-white/5 backdrop-blur-sm rounded-xl p-8 border border-white/10 shadow-xl shadow-black/20">
-              <h4 className="text-2xl font-bold text-white mb-4">Our Mission</h4>
-              <p className="text-gray-300">
-                We believe in creating digital experiences that not only meet but exceed client expectations. Our mission is to 
-                combine technical excellence with creative innovation to deliver websites that drive real business results.
-              </p>
-              
-              <div className="mt-8 space-y-4">
-                <motion.div 
-                  className="flex gap-3"
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: 0.1 }}
-                >
-                  <div className="bg-gradient-to-br from-purple-400 to-cyan-400 rounded-full h-6 w-6 flex items-center justify-center shrink-0 mt-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="text-white"><path d="m5 12 5 5L20 7"></path></svg>
-                  </div>
-                  <p className="text-gray-300">Delivering projects on time and within budget</p>
-                </motion.div>
-                <motion.div 
-                  className="flex gap-3"
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: 0.2 }}
-                >
-                  <div className="bg-gradient-to-br from-purple-400 to-cyan-400 rounded-full h-6 w-6 flex items-center justify-center shrink-0 mt-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="text-white"><path d="m5 12 5 5L20 7"></path></svg>
-                  </div>
-                  <p className="text-gray-300">Creating responsive designs that work across all devices</p>
-                </motion.div>
-                <motion.div 
-                  className="flex gap-3"
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: 0.3 }}
-                >
-                  <div className="bg-gradient-to-br from-purple-400 to-cyan-400 rounded-full h-6 w-6 flex items-center justify-center shrink-0 mt-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="text-white"><path d="m5 12 5 5L20 7"></path></svg>
-                  </div>
-                  <p className="text-gray-300">Building secure, performance-optimized websites</p>
-                </motion.div>
-                <motion.div 
-                  className="flex gap-3"
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: 0.4 }}
-                >
-                  <div className="bg-gradient-to-br from-purple-400 to-cyan-400 rounded-full h-6 w-6 flex items-center justify-center shrink-0 mt-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="text-white"><path d="m5 12 5 5L20 7"></path></svg>
-                  </div>
-                  <p className="text-gray-300">Providing ongoing support and growth strategies</p>
-                </motion.div>
-              </div>
             </div>
           </motion.div>
         </div>

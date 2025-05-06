@@ -1,8 +1,7 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { ArrowRight } from 'lucide-react';
 
 export const Hero: React.FC = () => {
   const container = {
@@ -20,6 +19,54 @@ export const Hero: React.FC = () => {
     show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } }
   };
 
+  // Animated taglines
+  const taglines = [
+    "Code. Create. Conquer.",
+    "Websites That Launch Businesses.",
+    "Brilliant Code, Stunning Designs.",
+    "We Speak fluent HTML & CSS – And Your Customers' Language.",
+    "Designing Pixels, Building Dreams.",
+    "From Zero to Website Hero.",
+    "Where AI Meets UI – Seamless Web Magic.",
+    "Smarter Code. Faster Loads. Better Results.",
+    "The Web, Perfected.",
+    "We Break the Internet (In a Good Way).",
+    "Your Website's Missing Piece? Us.",
+    "No Bugs, Just Brilliance."
+  ];
+  
+  const [currentTagline, setCurrentTagline] = useState(0);
+  const [displayText, setDisplayText] = useState("");
+  const [isTyping, setIsTyping] = useState(true);
+  
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout>;
+    
+    if (isTyping) {
+      if (displayText.length < taglines[currentTagline].length) {
+        timer = setTimeout(() => {
+          setDisplayText(taglines[currentTagline].slice(0, displayText.length + 1));
+        }, 100);
+      } else {
+        setIsTyping(false);
+        timer = setTimeout(() => {
+          setIsTyping(false);
+        }, 2000);
+      }
+    } else {
+      if (displayText.length > 0) {
+        timer = setTimeout(() => {
+          setDisplayText(displayText.slice(0, displayText.length - 1));
+        }, 50);
+      } else {
+        setIsTyping(true);
+        setCurrentTagline((prev) => (prev + 1) % taglines.length);
+      }
+    }
+    
+    return () => clearTimeout(timer);
+  }, [displayText, isTyping, currentTagline, taglines]);
+
   return (
     <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
       {/* Background Elements */}
@@ -29,7 +76,7 @@ export const Hero: React.FC = () => {
         
         {/* Animated particles/background elements */}
         <motion.div 
-          className="absolute top-20 -left-20 w-72 h-72 bg-purple-600/40 rounded-full filter blur-[100px]"
+          className="absolute top-20 -left-20 w-80 h-80 bg-purple-600/40 rounded-full filter blur-[100px]"
           animate={{
             x: [0, 20, 0],
             opacity: [0.4, 0.6, 0.4]
@@ -41,13 +88,25 @@ export const Hero: React.FC = () => {
           }}
         />
         <motion.div 
-          className="absolute bottom-20 right-10 w-72 h-72 bg-cyan-500/30 rounded-full filter blur-[100px]"
+          className="absolute bottom-20 right-10 w-80 h-80 bg-cyan-500/30 rounded-full filter blur-[100px]"
           animate={{
             x: [0, -20, 0],
             opacity: [0.3, 0.5, 0.3]
           }}
           transition={{
             duration: 10,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+        <motion.div 
+          className="absolute top-1/2 left-1/3 w-64 h-64 bg-pink-500/20 rounded-full filter blur-[120px]"
+          animate={{
+            scale: [1, 1.2, 1],
+            opacity: [0.2, 0.3, 0.2]
+          }}
+          transition={{
+            duration: 12,
             repeat: Infinity,
             ease: "easeInOut"
           }}
@@ -68,13 +127,19 @@ export const Hero: React.FC = () => {
             Building Digital Experiences That Inspire
           </motion.h1>
           
-          <motion.p 
+          <motion.div 
             variants={item}
-            className="text-lg md:text-xl text-gray-200 mb-8 max-w-2xl mx-auto"
+            className="text-lg md:text-xl text-gray-200 mb-8 max-w-2xl mx-auto h-24 flex items-center justify-center"
           >
-            We transform ideas into exceptional digital products. Our team of experts crafts beautiful, 
-            functional websites that help businesses grow and succeed in the digital landscape.
-          </motion.p>
+            <div className="relative">
+              <span className="text-gradient-primary text-2xl font-medium">{displayText}</span>
+              <motion.span 
+                className="absolute right-[-8px] top-0 h-full w-[2px] bg-cyan-400"
+                animate={{ opacity: [0, 1, 0] }}
+                transition={{ duration: 0.8, repeat: Infinity }}
+              ></motion.span>
+            </div>
+          </motion.div>
 
           <motion.div 
             variants={item}
@@ -85,44 +150,21 @@ export const Hero: React.FC = () => {
               whileTap={{ scale: 0.95 }}
             >
               <Button
-                className="bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-700 hover:to-cyan-600 text-white py-6 px-8 rounded-xl text-lg shadow-lg shadow-purple-600/30 border-0 group"
+                className="bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-700 hover:to-cyan-600 text-white py-6 px-8 rounded-xl text-lg shadow-lg shadow-purple-600/30 border-0 group relative overflow-hidden"
               >
-                Get Started
+                <span className="relative z-10">Let's Build</span>
+                <motion.span 
+                  className="absolute inset-0 bg-white/20 z-0"
+                  initial={{ x: "-100%" }}
+                  animate={{ x: ["100%", "-100%"] }}
+                  transition={{ 
+                    duration: 2.5, 
+                    repeat: Infinity,
+                    ease: "linear"
+                  }}
+                />
               </Button>
             </motion.div>
-            
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Button
-                asChild
-                variant="outline"
-                className="border-white/20 hover:border-white text-white hover:bg-white/10 py-6 px-8 rounded-xl text-lg flex items-center gap-2 group"
-              >
-                <a href="#portfolio" className="flex items-center">
-                  View Our Work
-                  <motion.span 
-                    className="inline-block ml-2"
-                    initial={{ x: 0 }}
-                    animate={{ x: [0, 5, 0] }}
-                    transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
-                  >
-                    <ArrowRight className="h-5 w-5" />
-                  </motion.span>
-                </a>
-              </Button>
-            </motion.div>
-          </motion.div>
-
-          <motion.div
-            variants={item}
-            className="mt-16 flex flex-wrap justify-center gap-8 opacity-70"
-          >
-            {/* Trusted by logos would go here */}
-            <div className="flex items-center text-sm text-gray-400 uppercase tracking-wider">
-              Trusted by innovative companies worldwide
-            </div>
           </motion.div>
         </motion.div>
       </div>
