@@ -1,21 +1,25 @@
 
 import React from 'react';
-import { Header } from '../components/home/Header';
-import { Features } from '../components/home/Features';
-import { Stats } from '../components/home/Stats';
-import { CaseStudy } from '../components/home/CaseStudy';
-import { Community } from '../components/home/Community';
-import { Footer } from '../components/home/Footer';
+import { Navbar } from '../components/agency/Navbar';
+import { Hero } from '../components/agency/Hero';
+import { Services } from '../components/agency/Services';
+import { Portfolio } from '../components/agency/Portfolio';
+import { Testimonials } from '../components/agency/Testimonials';
+import { AboutUs } from '../components/agency/AboutUs';
+import { Contact } from '../components/agency/Contact';
+import { Footer } from '../components/agency/Footer';
 
 const Index: React.FC = () => {
   return (
-    <div className="flex flex-col items-center bg-black">
-      <Header />
-      <main className="flex flex-col items-center w-full max-w-[1200px] px-4">
-        <Stats />
-        <Features />
-        <CaseStudy />
-        <Community />
+    <div className="min-h-screen bg-gradient-to-b from-zinc-900 via-indigo-900/20 to-zinc-900 text-white overflow-x-hidden">
+      <Navbar />
+      <main>
+        <Hero />
+        <Services />
+        <Portfolio />
+        <Testimonials />
+        <AboutUs />
+        <Contact />
       </main>
       <Footer />
     </div>
