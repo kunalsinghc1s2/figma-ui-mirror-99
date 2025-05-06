@@ -1,3 +1,4 @@
+
 import React from 'react';
 
 export const Footer: React.FC = () => {
@@ -70,4 +71,13 @@ export const Footer: React.FC = () => {
                   src="https://cdn.builder.io/api/v1/image/assets/458724007ccc403c9070f27f27bfcb9b/859b8966cd085ab5328757e4b83ec6f99c08ecb1?placeholderIfAbsent=true"
                   className="aspect-[0.95] object-contain w-[19px] self-stretch shrink-0 my-auto"
                   alt="Language icon"
-                
+                />
+                <span>EN</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+};
