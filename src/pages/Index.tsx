@@ -11,7 +11,7 @@ import { Footer } from '../components/agency/Footer';
 
 const Index: React.FC = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-zinc-900 via-indigo-900/20 to-zinc-900 text-white overflow-x-hidden">
+    <div className="min-h-screen bg-gradient-to-b from-zinc-950 via-indigo-950/10 to-zinc-950 text-white overflow-x-hidden">
       <Navbar />
       <main>
         <Hero />
