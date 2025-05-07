@@ -111,7 +111,7 @@ html {
 }
 
 /* Prevent content shift during image loading */
-.aspect-video, .aspect-[3/2] {
+.aspect-video, .aspect-3-2 {
   position: relative;
   background-color: rgba(0,0,0,0.1);
 }
