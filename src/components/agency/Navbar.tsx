@@ -52,7 +52,7 @@ export const Navbar: React.FC = () => {
           whileHover={{ scale: 1.05 }}
         >
           <span className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-cyan-400">
-            PixelCraft
+            DevsMagic
           </span>
         </motion.div>
 

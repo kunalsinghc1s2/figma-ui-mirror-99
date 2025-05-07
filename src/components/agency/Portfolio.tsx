@@ -2,9 +2,12 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
+import { ProjectModal, ProjectData } from './ProjectModal';
 
 export const Portfolio: React.FC = () => {
   const [activeFilter, setActiveFilter] = useState('all');
+  const [selectedProject, setSelectedProject] = useState<ProjectData | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   
   const filters = [
     { id: 'all', label: 'All Projects' },
@@ -20,41 +23,53 @@ export const Portfolio: React.FC = () => {
       category: "ecommerce",
       image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
       client: "FashionHub",
+      description: "A fully responsive e-commerce platform with advanced product filtering, user authentication, and secure payment processing. The platform features a modern design with intuitive navigation and optimized performance.",
+      techStack: ["React", "Node.js", "MongoDB", "Express", "Stripe API", "Redux"]
     },
     {
       id: 2,
       title: "Real Estate Listing Website",
       category: "web",
-      image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab",
+      image: "public/lovable-uploads/0afd1732-e586-4788-8c80-2bf21b7b34cc.png",
       client: "PropertyMasters",
+      description: "An interactive real estate platform allowing users to search for properties using various filters, view detailed listings with virtual tours, and contact agents directly. The site includes advanced mapping features and neighborhood information.",
+      techStack: ["React", "Next.js", "Tailwind CSS", "Google Maps API", "Firebase"]
     },
     {
       id: 3,
       title: "Healthcare Management System",
       category: "app",
-      image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef",
+      image: "public/lovable-uploads/2d067d6f-9cce-4075-a724-d4d3ea0b5ae6.png",
       client: "MediCare Clinic",
+      description: "A comprehensive healthcare management system that streamlines patient appointments, medical records, and billing processes. The application features real-time updates, secure data storage, and integration with existing healthcare systems.",
+      techStack: ["React", "TypeScript", "Express", "PostgreSQL", "Docker", "AWS"]
     },
     {
       id: 4,
       title: "Creative Agency Portfolio",
       category: "web",
-      image: "https://images.unsplash.com/photo-1558655146-d09347e92766",
+      image: "public/lovable-uploads/5be0efce-5efe-4c9c-abf2-438c3200af28.png",
       client: "ArtistryLabs",
+      description: "A visually stunning portfolio website for a creative agency, showcasing their projects with immersive animations and interactive elements. The site features smooth scrolling, dynamic content loading, and a custom CMS for easy updates.",
+      techStack: ["React", "Framer Motion", "Three.js", "GSAP", "Sanity CMS"]
     },
     {
       id: 5,
       title: "Pet Services Booking Platform",
       category: "app",
-      image: "https://images.unsplash.com/photo-1583511655826-05700a52f0d3",
+      image: "public/lovable-uploads/271517bf-5720-4e73-a358-fdf418defdfa.png",
       client: "PetPals",
+      description: "A user-friendly platform for pet owners to book various services including grooming, walking, and veterinary appointments. The application includes a review system, service provider profiles, and real-time availability updates.",
+      techStack: ["React Native", "Node.js", "MongoDB", "Socket.io", "Stripe"]
     },
     {
       id: 6,
       title: "Online Learning Dashboard",
       category: "app",
-      image: "https://images.unsplash.com/photo-1587691592099-24045742c181",
+      image: "public/lovable-uploads/f2c0bf48-79a6-4361-9111-4987888ef0eb.png",
       client: "EduTech Solutions",
+      description: "An advanced learning management system with interactive course content, progress tracking, and certification features. The platform supports video lectures, quizzes, and community discussions with a focus on user engagement and retention.",
+      techStack: ["React", "Redux", "Firebase", "WebRTC", "Material UI"]
     },
   ];
 
@@ -75,6 +90,30 @@ export const Portfolio: React.FC = () => {
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
     show: { opacity: 1, y: 0, transition: { duration: 0.6 } }
+  };
+
+  const handleProjectClick = (project: ProjectData) => {
+    setSelectedProject(project);
+    setIsModalOpen(true);
+    document.body.style.overflow = 'hidden'; // Prevent background scrolling
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    document.body.style.overflow = 'auto'; // Re-enable scrolling
+  };
+
+  const scrollToContact = () => {
+    handleCloseModal();
+    setTimeout(() => {
+      const contactSection = document.querySelector('#contact');
+      if (contactSection) {
+        window.scrollTo({
+          top: contactSection.getBoundingClientRect().top + window.scrollY - 100,
+          behavior: 'smooth'
+        });
+      }
+    }, 300);
   };
 
   return (
@@ -137,9 +176,10 @@ export const Portfolio: React.FC = () => {
             {filteredProjects.map((project) => (
               <motion.div
                 key={project.id}
-                className="group relative overflow-hidden rounded-xl shadow-lg shadow-black/30"
+                className="group relative overflow-hidden rounded-xl shadow-lg shadow-black/30 cursor-pointer"
                 variants={itemVariants}
                 whileHover={{ y: -10, scale: 1.02, transition: { duration: 0.2 } }}
+                onClick={() => handleProjectClick(project)}
               >
                 <div className="aspect-[3/2] overflow-hidden">
                   <img 
@@ -168,14 +208,11 @@ export const Portfolio: React.FC = () => {
                         <Button
                           variant="outline"
                           className="bg-zinc-900/60 backdrop-blur-md text-white hover:bg-white/20 hover:text-white border-white/20 group-hover:border-pink-500/50 transition-colors flex items-center gap-2"
-                          asChild
                         >
-                          <a href={`#project-${project.id}`}>
-                            View Project
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-1 transition-all group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                            </svg>
-                          </a>
+                          View Project
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-1 transition-all group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                          </svg>
                         </Button>
                       </motion.div>
                     </div>
@@ -211,6 +248,13 @@ export const Portfolio: React.FC = () => {
           </motion.div>
         </div>
       </div>
+
+      <ProjectModal 
+        project={selectedProject} 
+        isOpen={isModalOpen} 
+        onClose={handleCloseModal} 
+        onContactClick={scrollToContact}
+      />
     </section>
   );
 };

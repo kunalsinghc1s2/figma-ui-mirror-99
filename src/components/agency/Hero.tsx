@@ -67,6 +67,17 @@ export const Hero: React.FC = () => {
     return () => clearTimeout(timer);
   }, [displayText, isTyping, currentTagline, taglines]);
 
+  // Smooth scroll function
+  const scrollToContact = () => {
+    const contactSection = document.querySelector('#contact');
+    if (contactSection) {
+      window.scrollTo({
+        top: contactSection.getBoundingClientRect().top + window.scrollY - 100,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   return (
     <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
       {/* Background Elements */}
@@ -150,6 +161,7 @@ export const Hero: React.FC = () => {
               whileTap={{ scale: 0.95 }}
             >
               <Button
+                onClick={scrollToContact}
                 className="bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-700 hover:to-cyan-600 text-white py-6 px-8 rounded-xl text-lg shadow-lg shadow-purple-600/30 border-0 group relative overflow-hidden"
               >
                 <span className="relative z-10">Let's Build</span>
