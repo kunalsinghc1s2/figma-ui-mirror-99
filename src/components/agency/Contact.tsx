@@ -1,33 +1,46 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Phone, Mail, MapPin, Check, AlertTriangle } from 'lucide-react';
+import { Phone, Mail, MapPin } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
+import { useForm } from 'react-hook-form';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import * as z from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+// Form validation schema
+const formSchema = z.object({
+  name: z.string().min(2, { message: 'Name must be at least 2 characters' }),
+  email: z.string().email({ message: 'Please enter a valid email address' }),
+  subject: z.string().min(2, { message: 'Subject must be at least 2 characters' }),
+  message: z.string().min(10, { message: 'Message must be at least 10 characters' }),
+});
+
+type FormValues = z.infer<typeof formSchema>;
 
 export const Contact: React.FC = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
-  });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  // Initialize form with react-hook-form and zod validation
+  const form = useForm<FormValues>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: '',
+      email: '',
+      subject: '',
+      message: '',
+    },
+  });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (data: FormValues) => {
     setIsSubmitting(true);
 
     try {
-      // In a real scenario, you would send this data to your backend or use a service like EmailJS
-      // For demo purposes, we'll simulate a successful submission
-      console.log("Form submitted with data:", formData);
+      // In a real scenario, you would send this data to a backend API
+      // For now, we'll simulate a submission
+      console.log("Form submitted with data:", data);
       console.log("Email to be sent to: devsmagic.io@gmail.com");
       
       // Simulate API delay
@@ -39,12 +52,7 @@ export const Contact: React.FC = () => {
       });
       
       // Reset form
-      setFormData({
-        name: '',
-        email: '',
-        subject: '',
-        message: ''
-      });
+      form.reset();
     } catch (error) {
       console.error("Error submitting form:", error);
       toast.error("Failed to send message. Please try again later.", {
@@ -90,90 +98,113 @@ export const Contact: React.FC = () => {
             <div className="bg-gradient-to-br from-zinc-900/80 to-zinc-950/80 backdrop-blur-lg rounded-2xl p-8 border border-white/10 shadow-xl shadow-black/20">
               <h4 className="text-2xl font-semibold mb-6 text-white">Send us a Message</h4>
               
-              <form onSubmit={handleSubmit}>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                  <div className="relative">
-                    <label className="text-sm text-gray-300 mb-2 block">Your Name</label>
-                    <Input
-                      type="text"
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <FormField
+                      control={form.control}
                       name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      placeholder="John Doe"
-                      className="bg-zinc-800/70 border-white/10 focus:border-purple-500 text-white h-12 placeholder:text-gray-500"
-                      required
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-sm text-gray-300">Your Name</FormLabel>
+                          <FormControl>
+                            <Input
+                              {...field}
+                              placeholder="John Doe"
+                              className="bg-zinc-800/70 border-white/10 focus:border-purple-500 text-white h-12 placeholder:text-gray-500"
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
                     />
-                    <div className="absolute bottom-0 left-0 h-[2px] bg-gradient-to-r from-purple-500 to-cyan-500 w-0 group-focus-within:w-full transition-all duration-300"></div>
-                  </div>
-                  <div className="relative">
-                    <label className="text-sm text-gray-300 mb-2 block">Your Email</label>
-                    <Input
-                      type="email"
+                    
+                    <FormField
+                      control={form.control}
                       name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      placeholder="john@example.com"
-                      className="bg-zinc-800/70 border-white/10 focus:border-purple-500 text-white h-12 placeholder:text-gray-500"
-                      required
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-sm text-gray-300">Your Email</FormLabel>
+                          <FormControl>
+                            <Input
+                              {...field}
+                              placeholder="john@example.com"
+                              className="bg-zinc-800/70 border-white/10 focus:border-purple-500 text-white h-12 placeholder:text-gray-500"
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
                     />
                   </div>
-                </div>
-                
-                <div className="mb-6">
-                  <label className="text-sm text-gray-300 mb-2 block">Subject</label>
-                  <Input
-                    type="text"
+                  
+                  <FormField
+                    control={form.control}
                     name="subject"
-                    value={formData.subject}
-                    onChange={handleChange}
-                    placeholder="Project Inquiry"
-                    className="bg-zinc-800/70 border-white/10 focus:border-purple-500 text-white h-12 placeholder:text-gray-500"
-                    required
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm text-gray-300">Subject</FormLabel>
+                        <FormControl>
+                          <Input
+                            {...field}
+                            placeholder="Project Inquiry"
+                            className="bg-zinc-800/70 border-white/10 focus:border-purple-500 text-white h-12 placeholder:text-gray-500"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
-                </div>
-                
-                <div className="mb-6">
-                  <label className="text-sm text-gray-300 mb-2 block">Message</label>
-                  <textarea
-                    rows={5}
+                  
+                  <FormField
+                    control={form.control}
                     name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    placeholder="Tell us about your project..."
-                    className="w-full bg-zinc-800/70 border border-white/10 rounded-md p-3 text-white focus:outline-none focus:border-purple-500 placeholder:text-gray-500"
-                    required
-                  ></textarea>
-                </div>
-                
-                <div>
-                  <motion.div 
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    <Button
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-700 hover:to-cyan-600 
-                                text-white px-8 py-2 h-12 rounded-md shadow-lg shadow-purple-500/20 border-0 w-full md:w-auto relative overflow-hidden group"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm text-gray-300">Message</FormLabel>
+                        <FormControl>
+                          <textarea
+                            {...field}
+                            rows={5}
+                            placeholder="Tell us about your project..."
+                            className="w-full bg-zinc-800/70 border border-white/10 rounded-md p-3 text-white focus:outline-none focus:border-purple-500 placeholder:text-gray-500"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <div>
+                    <motion.div 
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
                     >
-                      <span className="relative z-10">
-                        {isSubmitting ? 'Sending...' : 'Send Message'}
-                      </span>
-                      <motion.span 
-                        className="absolute inset-0 bg-white/10 z-0"
-                        initial={{ x: "-100%" }}
-                        animate={{ x: "100%" }}
-                        transition={{ 
-                          duration: 1.5, 
-                          repeat: Infinity,
-                          repeatType: "loop",
-                          ease: "linear"
-                        }}
-                      />
-                    </Button>
-                  </motion.div>
-                </div>
-              </form>
+                      <Button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-700 hover:to-cyan-600 
+                                  text-white px-8 py-2 h-12 rounded-md shadow-lg shadow-purple-500/20 border-0 w-full md:w-auto relative overflow-hidden group"
+                      >
+                        <span className="relative z-10">
+                          {isSubmitting ? 'Sending...' : 'Send Message'}
+                        </span>
+                        <motion.span 
+                          className="absolute inset-0 bg-white/10 z-0"
+                          initial={{ x: "-100%" }}
+                          animate={{ x: "100%" }}
+                          transition={{ 
+                            duration: 1.5, 
+                            repeat: Infinity,
+                            repeatType: "loop",
+                            ease: "linear"
+                          }}
+                        />
+                      </Button>
+                    </motion.div>
+                  </div>
+                </form>
+              </Form>
             </div>
           </motion.div>
           
@@ -223,8 +254,7 @@ export const Contact: React.FC = () => {
                   <div>
                     <h5 className="text-white font-medium mb-1">Address</h5>
                     <p className="text-gray-300">
-                      123 Web Dev Street, <br />
-                      San Francisco, CA 94105
+                      Delhi, India
                     </p>
                   </div>
                 </motion.div>
@@ -303,12 +333,13 @@ export const Contact: React.FC = () => {
           className="mt-16 h-[400px] rounded-2xl overflow-hidden border border-white/10 shadow-xl shadow-black/20"
         >
           <iframe 
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.0659805134305!2d-122.40093046850231!3d37.78797277975548!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8085807d1dae8037%3A0xd74c650d6c39220c!2sFinancial%20District%2C%20San%20Francisco%2C%20CA%2094104!5e0!3m2!1sen!2sus!4v1651234567890!5m2!1sen!2sus" 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d224357.63669530117!2d77.04417756326037!3d28.5274670568616!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cfd5b347eb62d%3A0x37205b715389640!2sDelhi!5e0!3m2!1sen!2sin!4v1698351866296!5m2!1sen!2sin" 
             width="100%" 
             height="100%" 
             style={{ border: 0 }} 
             allowFullScreen 
             loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
             title="Map"
           />
         </motion.div>

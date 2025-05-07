@@ -15,6 +15,16 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({ service, onClick }) =>
       className="bg-gradient-to-br from-zinc-900/80 via-zinc-900/60 to-zinc-900/40 backdrop-blur-sm p-8 rounded-xl border border-white/10 hover:border-purple-500/30 transition-all cursor-pointer shadow-lg hover:shadow-purple-500/10"
       onClick={() => onClick(service)}
     >
+      {/* Service image */}
+      <div className="aspect-video w-full mb-6 overflow-hidden rounded-lg">
+        <img 
+          src={service.image} 
+          alt={service.title} 
+          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+          loading="lazy"
+        />
+      </div>
+      
       <div className="bg-gradient-to-br from-purple-600 to-cyan-500 rounded-2xl p-4 shadow-lg shadow-purple-500/20 w-16 h-16 flex items-center justify-center mb-6">
         {service.icon}
       </div>

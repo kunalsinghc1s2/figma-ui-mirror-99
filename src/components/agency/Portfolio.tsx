@@ -21,7 +21,7 @@ export const Portfolio: React.FC = () => {
       id: 1,
       title: "Modern E-Commerce Platform",
       category: "ecommerce",
-      image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
+      image: "public/lovable-uploads/9c23d2bf-d281-42b7-8c86-858d820007fe.png",
       client: "FashionHub",
       description: "A fully responsive e-commerce platform with advanced product filtering, user authentication, and secure payment processing. The platform features a modern design with intuitive navigation and optimized performance.",
       techStack: ["React", "Node.js", "MongoDB", "Express", "Stripe API", "Redux"]
@@ -70,6 +70,60 @@ export const Portfolio: React.FC = () => {
       client: "EduTech Solutions",
       description: "An advanced learning management system with interactive course content, progress tracking, and certification features. The platform supports video lectures, quizzes, and community discussions with a focus on user engagement and retention.",
       techStack: ["React", "Redux", "Firebase", "WebRTC", "Material UI"]
+    },
+    {
+      id: 7,
+      title: "Fitness Tracking App",
+      category: "app",
+      image: "public/lovable-uploads/99054480-d7ef-4c65-82cf-3626ebd1ef2a.png",
+      client: "FitLife",
+      description: "A comprehensive fitness tracking application that allows users to monitor workouts, nutrition, and progress. Features include customized workout plans, meal tracking, goal setting, and social sharing capabilities.",
+      techStack: ["React", "Redux", "Node.js", "MongoDB", "Chart.js", "Socket.io"]
+    },
+    {
+      id: 8,
+      title: "Travel Booking Platform",
+      category: "web",
+      image: "public/lovable-uploads/bdadf8e6-f8cd-4368-9f74-73a3d2729dad.png",
+      client: "Wanderlust",
+      description: "An all-in-one travel booking platform that enables users to search and book flights, hotels, and experiences. The site features personalized recommendations, trip planning tools, and integrated payment processing.",
+      techStack: ["React", "Next.js", "GraphQL", "PostgreSQL", "Redis", "AWS"]
+    },
+    {
+      id: 9,
+      title: "Restaurant Management System",
+      category: "app",
+      image: "public/lovable-uploads/c1d94fe9-cb21-41a2-9b2b-6580b666b108.png",
+      client: "Cuisine Connect",
+      description: "A complete restaurant management solution with table reservations, order processing, inventory management, and staff scheduling. The system includes a customer-facing app for online orders and a robust admin dashboard.",
+      techStack: ["React", "Node.js", "Express", "MongoDB", "Socket.io", "Redis"]
+    },
+    {
+      id: 10,
+      title: "Subscription Box Service",
+      category: "ecommerce",
+      image: "public/lovable-uploads/f27c4a1b-5bdb-4f17-a66f-dbaa397f8344.png",
+      client: "BoxDelight",
+      description: "A subscription-based e-commerce platform that delivers curated product boxes to customers on a recurring basis. Features include subscription management, personalized recommendations, and a robust admin interface for content management.",
+      techStack: ["React", "Next.js", "Stripe", "Contentful", "Firebase", "Algolia"]
+    },
+    {
+      id: 11,
+      title: "Social Media Dashboard",
+      category: "web",
+      image: "public/lovable-uploads/849b188e-9cf6-4bf3-92c3-c0a3ff318839.png",
+      client: "SocialPulse",
+      description: "A comprehensive social media management dashboard that allows businesses to schedule posts, analyze performance, and engage with their audience across multiple platforms from a single interface.",
+      techStack: ["React", "Redux", "Node.js", "PostgreSQL", "Chart.js", "AWS"]
+    },
+    {
+      id: 12,
+      title: "Investment Portfolio Tracker",
+      category: "app",
+      image: "public/lovable-uploads/9b7d7dff-7e39-4ca3-9ec4-df59ede111d9.png",
+      client: "WealthWise",
+      description: "A financial application that helps users track and manage their investment portfolios across various asset classes. Features include real-time market data, performance analytics, and personalized investment recommendations.",
+      techStack: ["React", "TypeScript", "Express", "MongoDB", "D3.js", "AWS"]
     },
   ];
 
@@ -186,6 +240,7 @@ export const Portfolio: React.FC = () => {
                     src={project.image} 
                     alt={project.title}
                     className="w-full h-full object-cover object-center transform group-hover:scale-110 transition-transform duration-500"
+                    loading="lazy"
                   />
                 </div>
                 
