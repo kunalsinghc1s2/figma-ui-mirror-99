@@ -1,5 +1,5 @@
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Navbar } from '../components/agency/Navbar';
 import { Hero } from '../components/agency/Hero';
 import { Services } from '../components/agency/Services';
@@ -15,17 +15,26 @@ const Index: React.FC = () => {
   // State to track if page is loaded (to prevent reloading issues)
   const [isLoaded, setIsLoaded] = useState(false);
   
-  // Refs for sections to optimize rendering
-  const heroSectionRef = useRef<HTMLDivElement>(null);
-  const servicesSectionRef = useRef<HTMLDivElement>(null);
-  const portfolioSectionRef = useRef<HTMLDivElement>(null);
-  const testimonialsSectionRef = useRef<HTMLDivElement>(null);
-  const aboutSectionRef = useRef<HTMLDivElement>(null);
-  const contactSectionRef = useRef<HTMLDivElement>(null);
-
-  // Set loaded state after component mounts
+  // Handler to update image loading
+  const handleImageLoad = () => {
+    const images = document.querySelectorAll('img');
+    images.forEach(img => {
+      if (img.complete) img.classList.add('loaded');
+    });
+  };
+  
+  // Set loaded state after component mounts and handle images
   useEffect(() => {
     setIsLoaded(true);
+    
+    // Add event listener for images already loaded
+    window.addEventListener('load', handleImageLoad);
+    handleImageLoad();
+    
+    // Clean up
+    return () => {
+      window.removeEventListener('load', handleImageLoad);
+    };
   }, []);
 
   return (
@@ -34,29 +43,12 @@ const Index: React.FC = () => {
       <AnimatePresence>
         {isLoaded && (
           <main>
-            <div ref={heroSectionRef}>
-              <Hero />
-            </div>
-            
-            <div ref={servicesSectionRef}>
-              <Services />
-            </div>
-            
-            <div ref={portfolioSectionRef}>
-              <Portfolio />
-            </div>
-            
-            <div ref={testimonialsSectionRef}>
-              <Testimonials />
-            </div>
-            
-            <div ref={aboutSectionRef}>
-              <AboutUs />
-            </div>
-            
-            <div ref={contactSectionRef}>
-              <Contact />
-            </div>
+            <Hero />
+            <Services />
+            <Portfolio />
+            <Testimonials />
+            <AboutUs />
+            <Contact />
           </main>
         )}
       </AnimatePresence>

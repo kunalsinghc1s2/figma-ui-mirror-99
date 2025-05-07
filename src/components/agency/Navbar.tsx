@@ -29,18 +29,33 @@ export const Navbar: React.FC = () => {
     if (section) {
       setMobileMenuOpen(false);
       window.scrollTo({
-        top: section.getBoundingClientRect().top + window.scrollY - 100,
+        top: section.getBoundingClientRect().top + window.scrollY - 80,
         behavior: 'smooth'
       });
     }
   };
 
+  // Close mobile menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const navElement = document.getElementById('mobile-menu');
+      if (mobileMenuOpen && navElement && !navElement.contains(event.target as Node)) {
+        setMobileMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [mobileMenuOpen]);
+
   return (
     <motion.nav
       className={`fixed top-0 w-full z-50 transition-all duration-300 ${
         isScrolled 
-          ? 'bg-black/80 backdrop-blur-lg border-b border-white/10 py-3' 
-          : 'bg-transparent py-6'
+          ? 'bg-black/80 backdrop-blur-lg border-b border-white/10 py-2' 
+          : 'bg-transparent py-4'
       }`}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
@@ -51,13 +66,13 @@ export const Navbar: React.FC = () => {
           className="flex items-center"
           whileHover={{ scale: 1.05 }}
         >
-          <span className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-cyan-400">
+          <span className="text-2xl sm:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-cyan-400">
             DevsMagic
           </span>
         </motion.div>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-6 lg:gap-8">
           {navLinks.map((link) => (
             <motion.a
               key={link.name}
@@ -93,14 +108,15 @@ export const Navbar: React.FC = () => {
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="text-white hover:bg-white/10"
           >
-            {mobileMenuOpen ? <X /> : <Menu />}
+            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </Button>
         </div>
       </div>
 
       {/* Mobile Navigation Menu */}
       <motion.div 
-        className={`md:hidden absolute top-full left-0 w-full bg-black/90 backdrop-blur-lg border-b border-white/10 ${!mobileMenuOpen && "hidden"}`}
+        id="mobile-menu"
+        className={`md:hidden absolute top-full left-0 w-full bg-black/95 backdrop-blur-lg border-b border-white/10 ${!mobileMenuOpen && "hidden"}`}
         initial={{ opacity: 0, height: 0 }}
         animate={{ 
           opacity: mobileMenuOpen ? 1 : 0, 
@@ -108,19 +124,19 @@ export const Navbar: React.FC = () => {
         }}
         transition={{ duration: 0.3 }}
       >
-        <div className="container mx-auto px-4 py-4 flex flex-col gap-4">
+        <div className="container mx-auto px-4 py-4 flex flex-col gap-2">
           {navLinks.map((link) => (
             <a
               key={link.name}
               href={link.href}
               onClick={(e) => scrollToSection(e, link.href)}
-              className="text-lg font-medium text-gray-200 hover:text-white py-2 transition-colors"
+              className="text-base font-medium text-gray-200 hover:text-white py-3 border-b border-zinc-800/50 transition-colors"
             >
               {link.name}
             </a>
           ))}
           <Button
-            className="bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-700 hover:to-cyan-600 text-white mt-2"
+            className="bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-700 hover:to-cyan-600 text-white mt-4 w-full"
           >
             Get Started
           </Button>
