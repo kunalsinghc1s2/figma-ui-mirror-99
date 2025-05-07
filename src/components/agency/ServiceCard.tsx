@@ -9,6 +9,19 @@ interface ServiceCardProps {
 }
 
 export const ServiceCard: React.FC<ServiceCardProps> = ({ service, onClick }) => {
+  // Ensure we have the required service data
+  if (!service) {
+    return null;
+  }
+  
+  // Handle image loading errors
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    const target = e.target as HTMLImageElement;
+    target.onerror = null; // Prevent infinite loop
+    target.src = '/placeholder.svg'; // Use a placeholder image
+    target.classList.add('loaded');
+  };
+
   return (
     <motion.div
       whileHover={{ y: -10, transition: { duration: 0.2 } }}
@@ -18,20 +31,23 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({ service, onClick }) =>
       {/* Service image */}
       <div className="aspect-video w-full mb-4 sm:mb-6 overflow-hidden rounded-lg">
         <img 
-          src={service.image} 
-          alt={service.title} 
+          src={service.image || '/placeholder.svg'} 
+          alt={service.title || 'Service'} 
           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
           loading="lazy"
           onLoad={(e) => (e.target as HTMLImageElement).classList.add('loaded')}
+          onError={handleImageError}
         />
       </div>
       
       <div className="bg-gradient-to-br from-purple-600 to-cyan-500 rounded-2xl p-3 sm:p-4 shadow-lg shadow-purple-500/20 w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center mb-4 sm:mb-6">
-        {service.icon}
+        {service.icon || null}
       </div>
       
-      <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4">{service.title}</h3>
-      <p className="text-gray-300 mb-4 sm:mb-6 text-sm sm:text-base">{service.description.substring(0, 120)}...</p>
+      <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4">{service.title || 'Service'}</h3>
+      <p className="text-gray-300 mb-4 sm:mb-6 text-sm sm:text-base">
+        {service.description ? `${service.description.substring(0, 120)}...` : 'No description available'}
+      </p>
       
       <motion.div
         whileHover={{ x: 5 }}

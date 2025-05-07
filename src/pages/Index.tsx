@@ -17,41 +17,49 @@ const Index: React.FC = () => {
   
   // Handler to update image loading
   const handleImageLoad = () => {
-    const images = document.querySelectorAll('img');
-    images.forEach(img => {
-      if (img.complete) img.classList.add('loaded');
-    });
+    try {
+      const images = document.querySelectorAll('img');
+      images.forEach(img => {
+        if (img.complete) img.classList.add('loaded');
+      });
+    } catch (error) {
+      console.error('Error handling image load:', error);
+    }
   };
   
   // Set loaded state after component mounts and handle images
   useEffect(() => {
-    setIsLoaded(true);
-    
-    // Add event listener for images already loaded
-    window.addEventListener('load', handleImageLoad);
-    handleImageLoad();
-    
-    // Clean up
-    return () => {
-      window.removeEventListener('load', handleImageLoad);
-    };
+    // Safely set the loaded state
+    try {
+      setIsLoaded(true);
+      
+      // Add event listener for images already loaded
+      window.addEventListener('load', handleImageLoad);
+      handleImageLoad();
+      
+      // Clean up
+      return () => {
+        window.removeEventListener('load', handleImageLoad);
+      };
+    } catch (error) {
+      console.error('Error in Index component effect:', error);
+      // Ensure we still set isLoaded even if there's an error
+      setIsLoaded(true);
+    }
   }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-zinc-950 via-zinc-950 to-zinc-950 text-white overflow-x-hidden">
       <Navbar />
-      <AnimatePresence>
-        {isLoaded && (
-          <main>
-            <Hero />
-            <Services />
-            <Portfolio />
-            <Testimonials />
-            <AboutUs />
-            <Contact />
-          </main>
-        )}
-      </AnimatePresence>
+      {/* Wrap the main content in an error boundary */}
+      <main>
+        <Hero />
+        <Services />
+        <Portfolio />
+        <Testimonials />
+        <AboutUs />
+        <Contact />
+      </main>
       <Footer />
       <WhatsAppButton phoneNumber="+918700450775" />
     </div>

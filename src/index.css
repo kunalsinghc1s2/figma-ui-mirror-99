@@ -72,7 +72,6 @@
   }
   body {
     @apply bg-background text-foreground;
-    -webkit-tap-highlight-color: transparent; /* Removes tap highlight on mobile */
   }
 }
 
@@ -80,8 +79,8 @@
 .fixed-buttons {
   position: fixed;
   z-index: 50;
-  right: 16px;
-  bottom: 16px;
+  right: 20px;
+  bottom: 20px;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -96,8 +95,6 @@
 /* Image loading optimization */
 img {
   transition: opacity 0.3s ease;
-  max-width: 100%;
-  height: auto;
 }
 
 img[loading="lazy"] {
@@ -111,7 +108,6 @@ img.loaded {
 /* Smooth scrolling for the whole page */
 html {
   scroll-behavior: smooth;
-  -webkit-text-size-adjust: 100%; /* Prevent font scaling in landscape */
 }
 
 /* Prevent content shift during image loading */
@@ -120,32 +116,10 @@ html {
   background-color: rgba(0,0,0,0.1);
 }
 
-/* Responsive container adjustments */
+/* Mobile optimizations */
 @media (max-width: 640px) {
   .container {
-    padding-left: 16px;
-    padding-right: 16px;
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
-}
-
-/* Better touch targets for mobile */
-button, 
-a, 
-[role="button"] {
-  min-height: 44px; /* Apple's recommended minimum tap target size */
-  min-width: 44px;
-}
-
-/* Fix for iOS input zoom */
-@media screen and (max-width: 768px) {
-  input, select, textarea {
-    font-size: 16px; /* Prevents zoom on iOS devices */
-  }
-}
-
-/* Improve overflow handling */
-.overflow-auto,
-.overflow-y-auto,
-.overflow-x-auto {
-  -webkit-overflow-scrolling: touch;
 }
