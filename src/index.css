@@ -122,4 +122,29 @@ html {
     padding-left: 1rem;
     padding-right: 1rem;
   }
+  
+  /* Improved tap targets for mobile */
+  a, button {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+  
+  /* Fix for mobile navigation */
+  #mobile-menu {
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+  }
+}
+
+/* Make form elements more accessible on mobile */
+@media (max-width: 768px) {
+  input, select, textarea, button {
+    font-size: 16px; /* Prevents iOS zoom on focus */
+  }
+  
+  /* Increase spacing in mobile navigation */
+  #mobile-menu a {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+  }
 }

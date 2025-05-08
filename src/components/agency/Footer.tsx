@@ -60,7 +60,7 @@ export const Footer: React.FC = () => {
             >
               <div className="flex items-center mb-6">
                 <span className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-cyan-400">
-                  PixelCraft
+                  DevsMagic
                 </span>
               </div>
               <p className="text-gray-400 mb-6 max-w-sm">
@@ -140,19 +140,19 @@ export const Footer: React.FC = () => {
                   <div className="text-cyan-400">
                     <Mail className="w-5 h-5" />
                   </div>
-                  <span className="text-gray-400">info@pixelcraft.com</span>
+                  <span className="text-gray-400">contact@devsmagic.com</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="text-cyan-400">
                     <Phone className="w-5 h-5" />
                   </div>
-                  <span className="text-gray-400">+1 (555) 123-4567</span>
+                  <span className="text-gray-400">+91 8700 450 775</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="text-cyan-400">
                     <MapPin className="w-5 h-5" />
                   </div>
-                  <span className="text-gray-400">123 Web Dev Street, San Francisco, CA</span>
+                  <span className="text-gray-400">123 Web Dev Street, New Delhi, India</span>
                 </div>
               </div>
             </motion.div>
@@ -167,7 +167,7 @@ export const Footer: React.FC = () => {
           className="border-t border-white/10 mt-16 py-10 flex flex-col md:flex-row justify-between items-center"
         >
           <p className="text-gray-400 mb-4 md:mb-0">
-            © {currentYear} PixelCraft. All rights reserved.
+            © {currentYear} DevsMagic. All rights reserved.
           </p>
           <div className="flex gap-6">
             <a href="#" className="text-gray-400 hover:text-white transition-colors">

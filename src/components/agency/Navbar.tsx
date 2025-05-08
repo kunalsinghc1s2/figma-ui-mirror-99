@@ -35,7 +35,7 @@ export const Navbar: React.FC = () => {
     }
   };
 
-  // Close mobile menu when clicking outside
+  // Handle closing mobile menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const navElement = document.getElementById('mobile-menu');
@@ -47,6 +47,32 @@ export const Navbar: React.FC = () => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [mobileMenuOpen]);
+
+  // Close mobile menu when pressing escape key
+  useEffect(() => {
+    const handleEscKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && mobileMenuOpen) {
+        setMobileMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('keydown', handleEscKey);
+    return () => {
+      document.removeEventListener('keydown', handleEscKey);
+    };
+  }, [mobileMenuOpen]);
+
+  // Prevent scrolling when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.classList.add('modal-open');
+    } else {
+      document.body.classList.remove('modal-open');
+    }
+    return () => {
+      document.body.classList.remove('modal-open');
     };
   }, [mobileMenuOpen]);
 
@@ -107,6 +133,7 @@ export const Navbar: React.FC = () => {
             size="icon"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="text-white hover:bg-white/10"
+            aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
           >
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </Button>
@@ -114,15 +141,12 @@ export const Navbar: React.FC = () => {
       </div>
 
       {/* Mobile Navigation Menu */}
-      <motion.div 
+      <div 
         id="mobile-menu"
-        className={`md:hidden absolute top-full left-0 w-full bg-black/95 backdrop-blur-lg border-b border-white/10 ${!mobileMenuOpen && "hidden"}`}
-        initial={{ opacity: 0, height: 0 }}
-        animate={{ 
-          opacity: mobileMenuOpen ? 1 : 0, 
-          height: mobileMenuOpen ? 'auto' : 0 
-        }}
-        transition={{ duration: 0.3 }}
+        className={`md:hidden fixed top-[60px] left-0 w-full bg-black/95 backdrop-blur-lg border-b border-white/10 transition-all duration-300 ease-in-out ${
+          mobileMenuOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
+        }`}
+        aria-hidden={!mobileMenuOpen}
       >
         <div className="container mx-auto px-4 py-4 flex flex-col gap-2">
           {navLinks.map((link) => (
@@ -141,7 +165,7 @@ export const Navbar: React.FC = () => {
             Get Started
           </Button>
         </div>
-      </motion.div>
+      </div>
     </motion.nav>
   );
 };
